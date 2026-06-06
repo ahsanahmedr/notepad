@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "532927467499",
+    "project_id": "notepad-f5010",
+    "storage_bucket": "notepad-f5010.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:532927467499:android:cd8741214e892133f093ae",
+        "android_client_info": {
+          "package_name": "com.example.notepad"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7Pj0KpKh-kr2YIEzwGm8-EEEO6ul8eCY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
