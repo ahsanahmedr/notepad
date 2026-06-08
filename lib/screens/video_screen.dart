@@ -48,11 +48,13 @@ class _VideoScreenState extends State<VideoScreen> {
   @override
   void dispose() {
     // Pehle chewie band karo
+
     _chewieController?.pause();
     _chewieController?.dispose();
     _chewieController = null;
 
     // Phir video band karo
+
     _videoController?.pause();
     _videoController?.dispose();
     _videoController = null;

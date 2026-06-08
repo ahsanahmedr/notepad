@@ -10,6 +10,9 @@ import '../screens/products_screen.dart';
 import '../screens/product_detail_screen.dart';
 import '../screens/video_screen.dart';
 import '../models/note_model.dart';
+import '../screens/dummy_login_screen.dart';
+import '../screens/Addproductscreen.dart';
+import '../screens/search-products-screen.dart';
 
 
 
@@ -47,10 +50,20 @@ class AppRouter {
         builder: (context, state) => const RegisterScreen(),
       ),
 
+      GoRoute(
+  path: '/dummy-login',
+  builder: (context, state) => const DummyLoginScreen(),
+),
+
       // Home
       GoRoute(
         path: '/home',
         builder: (context, state) => const HomeScreen(),
+      ),
+
+            GoRoute(
+        path: '/add-product',
+        builder: (context, state) => const AddProductScreen(),
       ),
 
       // Add / Edit Note
@@ -61,6 +74,10 @@ class AppRouter {
           return AddNoteScreen(existingNote: note);
         },
       ),
+      GoRoute(
+  path: '/search-products',
+  builder: (context, state) => const SearchProductScreen(),
+),
 
       // Profile
       GoRoute(

@@ -36,6 +36,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     // 2 second baad HomeScreen pe jaode
 // Future.delayed ke andar replace karo:
+
 Future.delayed(const Duration(seconds: 2), () {
   if (mounted) {
     final user = FirebaseAuth.instance.currentUser;

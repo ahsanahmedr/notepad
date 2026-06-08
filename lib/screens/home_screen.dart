@@ -101,6 +101,13 @@ void _openEditNote(NoteModel note) {
 context.push('/profile');
                     },
                   ),
+                                    IconButton(
+                    icon: const Icon(Icons.search,
+                        color: Color(0xFF1A1A2E), size: 28),
+                    onPressed: () {
+context.push('/search-products');
+                    },
+                  ),
                   IconButton(
   icon: const Icon(Icons.shopping_bag_outlined, color: Color(0xFF1A1A2E)),
   onPressed: () => context.push( '/products'),

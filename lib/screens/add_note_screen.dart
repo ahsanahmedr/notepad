@@ -70,6 +70,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
   try {
     if (_isEditing) {
       // Color bhi update ho ab
+      
       await _service.updateNote(
         widget.existingNote!.id,
         title,

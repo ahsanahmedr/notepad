@@ -174,6 +174,7 @@ ClipRRect(
     width: double.infinity,
     padding: const EdgeInsets.all(12),
     child: Image.network(
+      
       product.image,
       fit: BoxFit.contain,
       loadingBuilder: (_, child, progress) {

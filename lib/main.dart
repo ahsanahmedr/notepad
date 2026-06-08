@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       routerConfig: AppRouter.router,   // ← yeh add karo
+      routerConfig: AppRouter.router,   
     );
   }
 }

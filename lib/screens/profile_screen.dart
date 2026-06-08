@@ -455,6 +455,60 @@ onPressed: () {
 
               const SizedBox(height: 16),
 
+              SizedBox(
+  width: double.infinity,
+  height: 52,
+  child: ElevatedButton.icon(
+    onPressed: () {
+      context.push('/dummy-login');
+    },
+    icon: const Icon(Icons.api_rounded,
+        color: Colors.white, size: 20),
+    label: const Text(
+      'DummyJSON Login',
+      style: TextStyle(
+        fontSize: 15,
+        fontWeight: FontWeight.w700,
+        color: Colors.white,
+      ),
+    ),
+    style: ElevatedButton.styleFrom(
+      backgroundColor: _primary,
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+    ),
+  ),
+),
+              const SizedBox(height: 16),
+              SizedBox(
+  width: double.infinity,
+  height: 52,
+  child: ElevatedButton.icon(
+    onPressed: () {
+      context.go('/add-product');
+    },
+    icon: const Icon(Icons.api_rounded,
+        color: Colors.white, size: 20),
+    label: const Text(
+      'Addproduct',
+      style: TextStyle(
+        fontSize: 15,
+        fontWeight: FontWeight.w700,
+        color: Colors.white,
+      ),
+    ),
+    style: ElevatedButton.styleFrom(
+      backgroundColor: _primary,
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+    ),
+  ),
+),
+              const SizedBox(height: 16),
               // ── Logout Button ────────────────────────────
               SizedBox(
                 width: double.infinity,
@@ -480,6 +534,7 @@ onPressed: () {
                   ),
                 ),
               ),
+              
 
               const SizedBox(height: 32),
             ],
