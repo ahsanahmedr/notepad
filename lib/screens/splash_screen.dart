@@ -57,7 +57,7 @@ Future.delayed(const Duration(seconds: 2), () {
       backgroundColor: const Color(0xFFD4BBFF), // purple background
       body: AnimatedBuilder(
         animation: _controller,
-        builder: (_, __) => Opacity(
+        builder: (_, _) => Opacity(
           opacity: _fadeAnim.value,
           child: Transform.translate(
             offset: Offset(0, _slideAnim.value),
@@ -74,7 +74,7 @@ Future.delayed(const Duration(seconds: 2), () {
                       borderRadius: BorderRadius.circular(24),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.15),
+                          color: Colors.black.withValues(alpha: 0.15),
                           blurRadius: 20,
                           offset: const Offset(0, 8),
                         ),

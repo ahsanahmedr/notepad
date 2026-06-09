@@ -7,6 +7,7 @@ class ProductField extends StatelessWidget {
   final String hint;
   final IconData icon;
   final TextInputType keyboardType;
+  final bool autofocus;
 
   const ProductField({
     super.key,
@@ -15,6 +16,7 @@ class ProductField extends StatelessWidget {
     required this.hint,
     required this.icon,
     this.keyboardType = TextInputType.text,
+    this.autofocus = false,
   });
 
   @override
@@ -26,7 +28,7 @@ class ProductField extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withValues(alpha: 0.04),
             blurRadius: 12,
             offset: const Offset(0, 2),
           ),
@@ -41,7 +43,7 @@ class ProductField extends StatelessWidget {
                 width: 30,
                 height: 30,
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withOpacity(0.08),
+                  color: AppColors.primary.withValues(alpha: 0.08),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(icon, size: 15, color: AppColors.primary),
@@ -58,6 +60,7 @@ class ProductField extends StatelessWidget {
           TextField(
             controller: controller,
             keyboardType: keyboardType,
+            autofocus: autofocus,
             style: const TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w600,

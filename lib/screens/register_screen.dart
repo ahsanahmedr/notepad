@@ -138,8 +138,12 @@ TextFormField(
   textCapitalization: TextCapitalization.words,
   decoration: _inputDecoration('Enter your full name', Icons.person_outline),
   validator: (val) {
-    if (val == null || val.isEmpty) return 'Full name is required.';
-    if (val.trim().length < 3) return 'Name must be at least 3 characters.';
+    if (val == null || val.isEmpty) {
+      return 'Full name is required.';
+    }
+    if (val.trim().length < 3) {
+      return 'Name must be at least 3 characters.';
+    }
     return null;
   },
 ),
@@ -158,11 +162,14 @@ const SizedBox(height: 20),
                   decoration: _inputDecoration(
                       'Enter your email', Icons.email_outlined),
                   validator: (val) {
-                    if (val == null || val.isEmpty) return 'Email is required.';
+                    if (val == null || val.isEmpty) {
+                      return 'Email is required.';
+                    }
                     final emailRegex =
                         RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-                    if (!emailRegex.hasMatch(val))
+                    if (!emailRegex.hasMatch(val)) {
                       return 'Please enter a valid email address.';
+                    }
                     return null;
                   },
                 ),
@@ -193,14 +200,18 @@ const SizedBox(height: 20),
                     ),
                   ),
                   validator: (val) {
-                    if (val == null || val.isEmpty)
+                    if (val == null || val.isEmpty) {
                       return 'Password is required.';
-                    if (val.length < 6)
+                    }
+                    if (val.length < 6) {
                       return 'Password must be at least 6 characters.';
-                    if (!RegExp(r'[A-Z]').hasMatch(val))
+                    }
+                    if (!RegExp(r'[A-Z]').hasMatch(val)) {
                       return 'Password must contain at least one uppercase letter.';
-                    if (!RegExp(r'[0-9]').hasMatch(val))
+                    }
+                    if (!RegExp(r'[0-9]').hasMatch(val)) {
                       return 'Password must contain at least one number.';
+                    }
                     return null;
                   },
                 ),
@@ -231,10 +242,12 @@ const SizedBox(height: 20),
                     ),
                   ),
                   validator: (val) {
-                    if (val == null || val.isEmpty)
+                    if (val == null || val.isEmpty) {
                       return 'Please confirm your password.';
-                    if (val != _passwordController.text)
+                    }
+                    if (val != _passwordController.text) {
                       return 'Passwords do not match.';
+                    }
                     return null;
                   },
                 ),

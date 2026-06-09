@@ -16,15 +16,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(          // ← .router lagao
+      
+    return MaterialApp.router(          
       title: 'Notepad App',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF7C4DFF)),
         useMaterial3: true,
       ),
-      routerConfig: AppRouter.router,   // ← yeh add karo
-      routerConfig: AppRouter.router,   
+      routerConfig: AppRouter.router,   //
+   
     );
   }
 }

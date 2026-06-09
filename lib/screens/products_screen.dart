@@ -59,6 +59,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
   }
 
   // API se data fetch karo
+ 
   Future<void> _fetchProducts() async {
     try {
       final response = await http.get(
@@ -154,7 +155,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                         borderRadius: BorderRadius.circular(16),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.06),
+                            color: Colors.black.withValues(alpha: 0.06),
                             blurRadius: 10,
                             offset: const Offset(0, 4),
                           ),
@@ -186,7 +187,7 @@ ClipRRect(
           ),
         );
       },
-      errorBuilder: (_, __, ___) => const Icon(
+      errorBuilder: (context, error, stackTrace) => const Icon(
         Icons.broken_image_outlined,
         color: Colors.grey,
       ),
@@ -210,7 +211,7 @@ ClipRRect(
                                         horizontal: 12, vertical: 3),
                                     decoration: BoxDecoration(
                                       color: const Color(0xFF7C4DFF)
-                                          .withOpacity(0.1),
+                                          .withValues(alpha: 0.1),
                                       borderRadius:
                                           BorderRadius.circular(6),
                                     ),

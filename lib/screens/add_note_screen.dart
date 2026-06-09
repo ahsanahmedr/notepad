@@ -54,6 +54,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
 
   Future<void> _saveNote() async {
   if (_isSaving) return; // double press rokو
+  if (_isSaving) return; 
   
   final title = _titleController.text.trim();
   final content = _contentController.text.trim();
@@ -217,7 +218,7 @@ actions: [
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
+                          color: Colors.black.withValues(alpha: 0.1),
                           blurRadius: 4,
                         )
                       ],

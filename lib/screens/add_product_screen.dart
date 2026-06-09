@@ -20,6 +20,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
   bool _isLoading = false;
   Map<String, dynamic>? _response;
 
+  
+
   Future<void> _addProduct() async {
     FocusScope.of(context).unfocus();
     if (_titleController.text.isEmpty ||
@@ -76,6 +78,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false, 
       backgroundColor: AppColors.bg,
       appBar: AppBar(
         backgroundColor: AppColors.bg,
@@ -85,13 +88,13 @@ class _AddProductScreenState extends State<AddProductScreen> {
         title: const Text('Add Product',
             style: TextStyle(color: AppColors.dark, fontWeight: FontWeight.w700, fontSize: 18)),
         leading: GestureDetector(
-          onTap: () => context.go('/profile'),
+          onTap: () => context.go('/new-page'),
           child: Container(
             margin: const EdgeInsets.only(left: 16),
             decoration: BoxDecoration(
               color: AppColors.white,
               borderRadius: BorderRadius.circular(12),
-              boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 8)],
+              boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 8)],
             ),
             child: const Icon(Icons.arrow_back_ios_new_rounded, color: AppColors.dark, size: 16),
           ),
@@ -106,7 +109,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
             const SizedBox(height: 14),
             ProductField(controller: _priceController, label: 'Price', hint: 'e.g. 10', icon: Icons.attach_money_rounded, keyboardType: TextInputType.number),
             const SizedBox(height: 14),
-            ProductField(controller: _categoryController, label: 'Category', hint: 'e.g. stationery', icon: Icons.category_outlined),
+            ProductField(controller: _categoryController, label: 'Category', hint: 'e.g. stationery', icon: Icons.category_outlined, autofocus: false,),
             const SizedBox(height: 28),
             CustomButton(text: 'Save Product', isLoading: _isLoading, onPressed: _addProduct),
             if (_response != null) ...[
@@ -117,29 +120,75 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 decoration: BoxDecoration(
                   color: AppColors.white,
                   borderRadius: BorderRadius.circular(16),
-                  boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 12)],
+                  boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 12)],
                 ),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(children: [
-                      Container(
-                        width: 32, height: 32,
-                        decoration: BoxDecoration(color: Colors.green.withOpacity(0.1), borderRadius: BorderRadius.circular(10)),
-                        child: const Icon(Icons.check_rounded, color: Colors.green, size: 18),
-                      ),
-                      const SizedBox(width: 10),
-                      const Text('Product Added!', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: AppColors.dark)),
-                    ]),
-                    const SizedBox(height: 14),
-                    const Divider(height: 1),
-                    const SizedBox(height: 14),
-                    _row('ID', '${_response!['id']}'),
-                    _row('Title', '${_response!['title']}'),
-                    _row('Price', '\$${_response!['price']}'),
-                    _row('Category', '${_response!['category']}'),
-                  ],
+  crossAxisAlignment: CrossAxisAlignment.start,
+  children: [
+    Row(children: [
+      Container(
+        width: 32, height: 32,
+        decoration: BoxDecoration(
+            color: Colors.green.withValues(alpha: 0.1),
+            borderRadius: BorderRadius.circular(10)),
+        child: const Icon(Icons.check_rounded, color: Colors.green, size: 18),
+      ),
+      const SizedBox(width: 10),
+      const Text('Product Added!',
+          style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+              color: AppColors.dark)),
+      const Spacer(),
+
+      // Edit button — navigate to update screen with product id
+      GestureDetector(
+       // Receive updated data from update screen
+onTap: () async {
+  // Dismiss keyboard before navigating
+  FocusScope.of(context).unfocus();
+  await Future.delayed(const Duration(milliseconds: 300));
+  
+  final updated = await context.push<Map<String, dynamic>>(
+    '/update-product',
+    extra: _response!['id'].toString(),
+  );
+  if (updated != null) {
+    setState(() => _response = updated);
+  }
+},
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          decoration: BoxDecoration(
+            color: Colors.orange.withValues(alpha: 0.1),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: const Row(
+            children: [
+              Icon(Icons.edit_rounded, size: 13, color: Colors.orange),
+              SizedBox(width: 4),
+              Text(
+                'Edit',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.orange,
+                  fontWeight: FontWeight.w600,
                 ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ]),
+    const SizedBox(height: 14),
+    const Divider(height: 1),
+    const SizedBox(height: 14),
+    _row('ID', '${_response!['id']}'),
+    _row('Title', '${_response!['title']}'),
+    _row('Price', '\$${_response!['price']}'),
+    _row('Category', '${_response!['category']}'),
+  ],
+),
               ),
             ],
           ],

@@ -5,6 +5,7 @@ class FirestoreService {
   final CollectionReference _notesRef =
       FirebaseFirestore.instance.collection('notes');
 // Users ka profile save karna
+
 Future<void> saveUserProfile(String uid, String name, String email) async {
   await FirebaseFirestore.instance.collection('users').doc(uid).set({
     'name': name,

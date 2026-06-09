@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../constants/app_colors.dart';
+import 'package:go_router/go_router.dart';
+
 
 class SearchProductScreen extends StatefulWidget {
   const SearchProductScreen({super.key});
@@ -17,10 +19,9 @@ class _SearchProductScreenState extends State<SearchProductScreen> {
   bool _searched = false;
 
   // Fetch products from API based on search query
-  Future<void> _searchProducts() async {
-    FocusScope.of(context).unfocus();
+Future<void> _searchProducts([String? value]) async {
+  final query = value ?? _searchController.text.trim();
 
-    final query = _searchController.text.trim();
     if (query.isEmpty) return;
 
     setState(() {
@@ -80,7 +81,7 @@ class _SearchProductScreenState extends State<SearchProductScreen> {
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
+                  color: Colors.black.withValues(alpha: 0.05),
                   blurRadius: 8,
                 ),
               ],
@@ -104,7 +105,7 @@ class _SearchProductScreenState extends State<SearchProductScreen> {
                       borderRadius: BorderRadius.circular(14),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.04),
+                          color: Colors.black.withValues(alpha: 0.04),
                           blurRadius: 12,
                           offset: const Offset(0, 2),
                         ),
@@ -112,7 +113,12 @@ class _SearchProductScreenState extends State<SearchProductScreen> {
                     ),
                     child: TextField(
                       controller: _searchController,
-                      onSubmitted: (_) => _searchProducts(),
+                      onChanged: (value) {
+  if (value.trim().length > 1) {
+    _searchProducts();
+  }
+},
+onSubmitted: (_) => _searchProducts(),
                       style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
@@ -181,7 +187,13 @@ class _SearchProductScreenState extends State<SearchProductScreen> {
                             itemCount: _products.length,
                             itemBuilder: (_, i) {
                               final p = _products[i];
-                              return Container(
+                              
+                              return GestureDetector(
+  onTap: () => context.push(
+    '/search-product-detail',
+    extra: p,
+  ),
+                             child:  Container(
                                 margin: const EdgeInsets.only(bottom: 12),
                                 padding: const EdgeInsets.all(14),
                                 decoration: BoxDecoration(
@@ -189,7 +201,7 @@ class _SearchProductScreenState extends State<SearchProductScreen> {
                                   borderRadius: BorderRadius.circular(16),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.black.withOpacity(0.04),
+                                      color: Colors.black.withValues(alpha: 0.04),
                                       blurRadius: 12,
                                       offset: const Offset(0, 2),
                                     ),
@@ -198,24 +210,56 @@ class _SearchProductScreenState extends State<SearchProductScreen> {
                                 child: Row(
                                   children: [
                                     // Product image
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: Image.network(
-                                        p['thumbnail'] ?? '',
-                                        width: 60,
-                                        height: 60,
-                                        fit: BoxFit.cover,
-                                        errorBuilder: (_, __, ___) =>
-                                            Container(
-                                          width: 60,
-                                          height: 60,
-                                          color: AppColors.bg,
-                                          child: const Icon(
-                                              Icons.image_not_supported_outlined,
-                                              color: AppColors.muted),
-                                        ),
-                                      ),
-                                    ),
+ClipRRect(
+  borderRadius: BorderRadius.circular(10),
+  child: Stack(
+    children: [
+      // IMAGE
+      Image.network(
+        p['thumbnail'] ?? '',
+        width: 60,
+        height: 60,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) =>
+            Container(
+          width: 60,
+          height: 60,
+          color: AppColors.bg,
+          child: const Icon(
+            Icons.image_not_supported_outlined,
+            color: AppColors.muted,
+          ),
+        ),
+      ),
+
+      // LOADER OVER IMAGE
+      Positioned.fill(
+        child: FutureBuilder(
+          future: precacheImage(
+            NetworkImage(p['thumbnail'] ?? ''),
+            context,
+          ),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return const SizedBox.shrink();
+            }
+
+            return Container(
+              color: AppColors.bg,
+              child: const Center(
+                child: SizedBox(
+                  width: 18,
+                  height: 18,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    ],
+  ),
+),
                                     const SizedBox(width: 12),
 
                                     // Product info
@@ -256,6 +300,7 @@ class _SearchProductScreenState extends State<SearchProductScreen> {
                                     ),
                                   ],
                                 ),
+                              ),
                               );
                             },
                           ),

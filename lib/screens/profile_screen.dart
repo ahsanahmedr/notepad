@@ -165,7 +165,7 @@ TextButton(
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
+                  color: Colors.black.withValues(alpha: 0.05),
                   blurRadius: 8,
                   offset: const Offset(0, 2),
                 ),
@@ -207,7 +207,7 @@ TextButton(
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
-                      color: _primary.withOpacity(0.35),
+                      color: _primary.withValues(alpha: 0.35),
                       blurRadius: 24,
                       offset: const Offset(0, 8),
                     ),
@@ -274,8 +274,8 @@ TextButton(
                         const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                     decoration: BoxDecoration(
                       color: _isEditing
-                          ? Colors.red.withOpacity(0.08)
-                          : _primary.withOpacity(0.08),
+                          ? Colors.red.withValues(alpha: 0.08)
+                          : _primary.withValues(alpha: 0.08),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
@@ -326,10 +326,12 @@ TextButton(
                           ),
                         ),
                         validator: (val) {
-                          if (val == null || val.isEmpty)
+                          if (val == null || val.isEmpty) {
                             return 'Name is required.';
-                          if (val.trim().length < 3)
+                          }
+                          if (val.trim().length < 3) {
                             return 'At least 3 characters.';
+                          }
                           return null;
                         },
                       )
@@ -353,7 +355,7 @@ TextButton(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.08),
+                    color: Colors.grey.withValues(alpha: 0.08),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: const Row(
@@ -393,7 +395,7 @@ TextButton(
                     onPressed: _isSaving ? null : _updateName,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: _primary,
-                      disabledBackgroundColor: _primary.withOpacity(0.5),
+                      disabledBackgroundColor: _primary.withValues(alpha: 0.5),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),
@@ -424,91 +426,7 @@ TextButton(
 
               const SizedBox(height: 16),
 
-              // ── Watch Video Button ───────────────────────
-              SizedBox(
-                width: double.infinity,
-                height: 52,
-                child: ElevatedButton.icon(
-                 // Watch Video button
-onPressed: () {
-  context.push('/video'); // ← replace karo
-},
-                  icon: const Icon(Icons.play_circle_outline_rounded,
-                      color: Colors.white, size: 20),
-                  label: const Text(
-                    'Watch Video',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
-                    ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: _primary,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 16),
-
-              SizedBox(
-  width: double.infinity,
-  height: 52,
-  child: ElevatedButton.icon(
-    onPressed: () {
-      context.push('/dummy-login');
-    },
-    icon: const Icon(Icons.api_rounded,
-        color: Colors.white, size: 20),
-    label: const Text(
-      'DummyJSON Login',
-      style: TextStyle(
-        fontSize: 15,
-        fontWeight: FontWeight.w700,
-        color: Colors.white,
-      ),
-    ),
-    style: ElevatedButton.styleFrom(
-      backgroundColor: _primary,
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
-    ),
-  ),
-),
-              const SizedBox(height: 16),
-              SizedBox(
-  width: double.infinity,
-  height: 52,
-  child: ElevatedButton.icon(
-    onPressed: () {
-      context.go('/add-product');
-    },
-    icon: const Icon(Icons.api_rounded,
-        color: Colors.white, size: 20),
-    label: const Text(
-      'Addproduct',
-      style: TextStyle(
-        fontSize: 15,
-        fontWeight: FontWeight.w700,
-        color: Colors.white,
-      ),
-    ),
-    style: ElevatedButton.styleFrom(
-      backgroundColor: _primary,
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
-    ),
-  ),
-),
-              const SizedBox(height: 16),
+            
               // ── Logout Button ────────────────────────────
               SizedBox(
                 width: double.infinity,
@@ -526,8 +444,8 @@ onPressed: () {
                     ),
                   ),
                   style: OutlinedButton.styleFrom(
-                    side: BorderSide(color: Colors.red.withOpacity(0.3)),
-                    backgroundColor: Colors.red.withOpacity(0.04),
+                    side: BorderSide(color: Colors.red.withValues(alpha: 0.3)),
+                    backgroundColor: Colors.red.withValues(alpha: 0.04),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                     ),
@@ -568,7 +486,7 @@ class _InfoCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(18),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withValues(alpha: 0.04),
             blurRadius: 12,
             offset: const Offset(0, 2),
           ),
@@ -583,7 +501,7 @@ class _InfoCard extends StatelessWidget {
                 width: 32,
                 height: 32,
                 decoration: BoxDecoration(
-                  color: const Color(0xFF6C47FF).withOpacity(0.08),
+                  color: const Color(0xFF6C47FF).withValues(alpha: 0.08),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Icon(icon,
@@ -599,7 +517,7 @@ class _InfoCard extends StatelessWidget {
                 ),
               ),
               const Spacer(),
-              if (trailing != null) trailing!,
+              trailing ?? const SizedBox.shrink(),
             ],
           ),
           const SizedBox(height: 12),

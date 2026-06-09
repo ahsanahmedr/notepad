@@ -64,7 +64,7 @@ class _DummyLoginScreenState extends State<DummyLoginScreen> {
             _infoRow('Name', '${data['firstName']} ${data['lastName']}'),
             _infoRow('Username', data['username']),
             _infoRow('Email', data['email']),
-            _infoRow('Token', data['accessToken'].toString().substring(0, 20) + '...'),
+            _infoRow('Token', '${data['accessToken'].toString().substring(0, 20)}...'),
           ],
         ),
         actions: [
