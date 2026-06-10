@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import '../constants/app_colors.dart';
 
+
 class ProductField extends StatelessWidget {
+  final FocusNode? focusNode; 
   final TextEditingController controller;
   final String label;
   final String hint;
   final IconData icon;
   final TextInputType keyboardType;
   final bool autofocus;
+  final TextInputAction textInputAction; 
+
+// ← add karo
 
   const ProductField({
+    this.focusNode,
     super.key,
     required this.controller,
     required this.label,
@@ -17,6 +23,7 @@ class ProductField extends StatelessWidget {
     required this.icon,
     this.keyboardType = TextInputType.text,
     this.autofocus = false,
+    this.textInputAction = TextInputAction.next, // ← default next
   });
 
   @override
@@ -61,6 +68,8 @@ class ProductField extends StatelessWidget {
             controller: controller,
             keyboardType: keyboardType,
             autofocus: autofocus,
+            focusNode: focusNode,
+            textInputAction: textInputAction, // ← add karo
             style: const TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
@@ -80,8 +89,8 @@ class ProductField extends StatelessWidget {
                   borderSide: BorderSide.none),
               focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide:
-                      const BorderSide(color: AppColors.primary, width: 1.5)),
+                  borderSide: const BorderSide(
+                      color: AppColors.primary, width: 1.5)),
             ),
           ),
         ],

@@ -5,12 +5,14 @@ class CustomButton extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;
   final bool isLoading;
+  final bool unfocusOnTap; // ← add karo
 
   const CustomButton({
     super.key,
     required this.text,
     required this.onPressed,
     this.isLoading = false,
+    this.unfocusOnTap = false, // ← default false
   });
 
   @override
@@ -19,7 +21,13 @@ class CustomButton extends StatelessWidget {
       width: double.infinity,
       height: 52,
       child: ElevatedButton(
-        onPressed: isLoading ? null : onPressed,
+        onPressed: isLoading
+            ? null
+            : () {
+                // Dismiss keyboard if unfocusOnTap is true
+                if (unfocusOnTap) FocusScope.of(context).unfocus();
+                onPressed?.call();
+              },
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primary,
           disabledBackgroundColor: AppColors.primary.withValues(alpha: 0.5),

@@ -17,9 +17,19 @@ class _AddProductScreenState extends State<AddProductScreen> {
   final _titleController = TextEditingController();
   final _priceController = TextEditingController();
   final _categoryController = TextEditingController();
+  final _titleFocus = FocusNode();
+final _priceFocus = FocusNode();
+final _categoryFocus = FocusNode();
   bool _isLoading = false;
   Map<String, dynamic>? _response;
-
+@override
+@override
+void initState() {
+  super.initState();
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    FocusManager.instance.primaryFocus?.unfocus();
+  });
+}
   
 
   Future<void> _addProduct() async {
@@ -72,12 +82,17 @@ class _AddProductScreenState extends State<AddProductScreen> {
     _titleController.dispose();
     _priceController.dispose();
     _categoryController.dispose();
+      _titleFocus.dispose();   // ← add
+  _priceFocus.dispose();   // ← add
+  _categoryFocus.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return GestureDetector(
+  onTap: () => FocusScope.of(context).unfocus(),
+  child: Scaffold(
       resizeToAvoidBottomInset: false, 
       backgroundColor: AppColors.bg,
       appBar: AppBar(
@@ -105,13 +120,14 @@ class _AddProductScreenState extends State<AddProductScreen> {
         child: Column(
           children: [
             const SizedBox(height: 8),
-            ProductField(controller: _titleController, label: 'Title', hint: 'e.g. BMW Pencil', icon: Icons.title_rounded),
+            ProductField(controller: _titleController, focusNode: _titleFocus,   label: 'Title', hint: 'e.g. BMW Pencil', icon: Icons.title_rounded),
             const SizedBox(height: 14),
-            ProductField(controller: _priceController, label: 'Price', hint: 'e.g. 10', icon: Icons.attach_money_rounded, keyboardType: TextInputType.number),
+            ProductField(controller: _priceController, focusNode: _priceFocus, label: 'Price', hint: 'e.g. 10', icon: Icons.attach_money_rounded, keyboardType: TextInputType.number),
             const SizedBox(height: 14),
-            ProductField(controller: _categoryController, label: 'Category', hint: 'e.g. stationery', icon: Icons.category_outlined, autofocus: false,),
+            ProductField(controller: _categoryController, focusNode: _categoryFocus, label: 'Category', hint: 'e.g. stationery', icon: Icons.category_outlined, keyboardType: TextInputType.text),
             const SizedBox(height: 28),
-            CustomButton(text: 'Save Product', isLoading: _isLoading, onPressed: _addProduct),
+CustomButton(text: 'Save Product', isLoading: _isLoading,   onPressed: _addProduct, ),
+
             if (_response != null) ...[
               const SizedBox(height: 28),
               Container(
@@ -145,15 +161,21 @@ class _AddProductScreenState extends State<AddProductScreen> {
       GestureDetector(
        // Receive updated data from update screen
 onTap: () async {
-  // Dismiss keyboard before navigating
-  FocusScope.of(context).unfocus();
+  // Unfocus all fields before leaving
+  _titleFocus.unfocus();
+  _priceFocus.unfocus();
+  _categoryFocus.unfocus();
+  FocusManager.instance.primaryFocus?.unfocus();
   await Future.delayed(const Duration(milliseconds: 300));
-  
+
   final updated = await context.push<Map<String, dynamic>>(
     '/update-product',
     extra: _response!['id'].toString(),
   );
+
   if (updated != null) {
+    // Unfocus again when coming back
+    FocusManager.instance.primaryFocus?.unfocus();
     setState(() => _response = updated);
   }
 },
@@ -166,6 +188,8 @@ onTap: () async {
           child: const Row(
             children: [
               Icon(Icons.edit_rounded, size: 13, color: Colors.orange),
+              SizedBox(width: 12),
+              
               SizedBox(width: 4),
               Text(
                 'Edit',
@@ -175,10 +199,24 @@ onTap: () async {
                   fontWeight: FontWeight.w600,
                 ),
               ),
+              
             ],
-          ),
+          )
+
         ),
       ),
+      const SizedBox(width: 8),
+
+IconButton(
+  onPressed: () {
+    context.push('/delete-product');
+  },
+  icon: const Icon(
+    Icons.delete_rounded,
+    color: Colors.red,
+    size: 22,
+  ),
+),
     ]),
     const SizedBox(height: 14),
     const Divider(height: 1),
@@ -194,6 +232,7 @@ onTap: () async {
           ],
         ),
       ),
+    ),
     );
   }
 

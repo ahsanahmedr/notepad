@@ -16,6 +16,7 @@ import '../screens/search_products_screen.dart';
 import '../screens/search_product_detail_screen.dart';
 import '../screens/new_page.dart';
 import '../screens/update_product_screen.dart';
+import '../screens/delete_product_screen.dart';
 
 
 
@@ -76,6 +77,10 @@ GoRoute(
     final productId = state.extra as String?;
     return UpdateProductScreen(productId: productId);
   },
+),
+GoRoute(
+  path: '/delete-product',
+  builder: (context, state) => const DeleteProductScreen(),
 ),
       // Add / Edit Note
       GoRoute(

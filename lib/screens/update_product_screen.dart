@@ -83,10 +83,11 @@ if (mounted) {
   ));
 
   // Wait for snackbar then pop with updated data
-  await Future.delayed(const Duration(milliseconds: 800));
-  FocusScope.of(context).unfocus();
-  await Future.delayed(const Duration(milliseconds: 200));
-  if (mounted) context.pop(data);
+  // Wait for snackbar then pop with updated data
+await Future.delayed(const Duration(milliseconds: 800));
+FocusScope.of(context).unfocus();
+await Future.delayed(const Duration(milliseconds: 200));
+if (mounted) context.pop(data);
 }
     } finally {
       if (mounted) setState(() => _isLoading = false);
@@ -120,7 +121,7 @@ if (mounted) {
           ),
         ),
         leading: GestureDetector(
-          onTap: () => context.go('/add-product'),
+          onTap: () => context.pop(),
           child: Container(
             margin: const EdgeInsets.only(left: 16),
             decoration: BoxDecoration(
@@ -147,6 +148,7 @@ if (mounted) {
             // Product ID field (1 to 194 valid)
             ProductField(
               controller: _idController,
+              
               label: 'Product ID',
               hint: 'e.g. 1  (valid: 1 - 194)',
               icon: Icons.tag_rounded,
@@ -187,6 +189,7 @@ if (mounted) {
               text: 'Update Product',
               isLoading: _isLoading,
               onPressed: _updateProduct,
+              unfocusOnTap: true,
             ),
 
             // Response card — shown after successful update
@@ -209,29 +212,7 @@ if (mounted) {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Success header
-                    Row(
-                      children: [
-                        Container(
-                          width: 32,
-                          height: 32,
-                          decoration: BoxDecoration(
-                            color: Colors.orange.withValues(alpha: 0.1),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: const Icon(Icons.edit_rounded,
-                              color: Colors.orange, size: 18),
-                        ),
-                        const SizedBox(width: 10),
-                        const Text(
-                          'Product Updated!',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.dark,
-                          ),
-                        ),
-                      ],
-                    ),
+
                     const SizedBox(height: 14),
                     const Divider(height: 1),
                     const SizedBox(height: 14),
